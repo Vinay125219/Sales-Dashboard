@@ -1112,3 +1112,96 @@ body {
     height: auto !important;
     min-height: 300px;
 }
+
+/* Fix for sidebar toggle button that's present in HTML but missing in CSS */
+.sidebar-toggle {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: 0;
+    display: block;
+}
+
+/* Fix for missing styling for dropdown-menu which is used in HTML */
+.dropdown-menu {
+    background-color: var(--card-bg);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+.dropdown-item {
+    color: var(--text-primary);
+}
+
+.dropdown-item:hover {
+    background-color: rgba(var(--primary-color), 0.1);
+    color: var(--primary-color);
+}
+
+/* Add styling for card-footer which is used in the insights panel */
+.card-footer {
+    background-color: transparent;
+    border-top: 1px solid var(--border-color);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Add styling for the btn-group that's used in the revenue performance card */
+.btn-group .btn-outline-secondary.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Fix for the row class which needs additional styling to work with the viz-row class */
+.insight-alert {
+    display: block; /* Default display for all insights */
+    transition: opacity 0.3s ease; /* Smooth transition for visibility changes */
+}
+
+.insight-alert.hidden {
+    display: none; /* Hidden state for insights beyond the first 5 */
+}
+
+.card-footer button {
+    cursor: pointer;
+}
+/* Fix for the col-md classes which are used in HTML */
+.col-md-3, .col-md-4, .col-md-6, .col-md-8 {
+    padding-right: 12.5px;
+    padding-left: 12.5px;
+    margin-bottom: 25px;
+}
+
+/* Fix for the card class which is used in HTML but not explicitly styled in CSS */
+.card {
+    border: none;
+    border-radius: 12px;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: var(--glass-border);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease;
+    height: 100%;
+}
+
+/* Add overlay when sidebar is shown on mobile */
+@media (max-width: 768px) {
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 90;
+    }
+    
+    .sidebar-overlay.show {
+        display: block;
+    }
+}

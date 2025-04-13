@@ -1,238 +1,331 @@
-// Mock Data for Charts
-const mockData = {
-    revenue: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        datasets: [
-            { label: 'Actual Revenue', data: [450000, 520000, 480000, 650000, 700000, 850000, 780000, 950000, 1280000], borderColor: '#4361ee', backgroundColor: 'rgba(67, 97, 238, 0.1)', tension: 0.4, fill: true },
-            { label: 'Target Revenue', data: [500000, 500000, 600000, 600000, 700000, 700000, 800000, 800000, 900000], borderColor: 'rgba(102, 126, 234, 0.5)', borderDash: [5, 5], tension: 0.4, borderWidth: 2, pointRadius: 0, fill: false },
-            { label: 'Previous Year', data: [380000, 420000, 390000, 500000, 560000, 610000, 650000, 700000, 790000], borderColor: 'rgba(67, 97, 238, 0.3)', backgroundColor: 'rgba(67, 97, 238, 0.05)', tension: 0.4, fill: true }
-        ]
-    },
-    acquisition: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'], datasets: [{ label: 'New Customers', data: [65, 78, 52, 91, 108, 124, 137, 156, 168], backgroundColor: '#4cc9f0', hoverBackgroundColor: '#3a86ff', barPercentage: 0.6, categoryPercentage: 0.7 }] },
-    categorySales: { labels: ['Software', 'Hardware', 'Services', 'Training'], datasets: [{ data: [55, 25, 15, 5], backgroundColor: ['#4361ee', '#3a0ca3', '#4cc9f0', '#f72585'], hoverBackgroundColor: ['#3a56d4', '#2f0b82', '#32b4e4', '#e9126f'] }] },
-    targets: { labels: ['North America', 'Europe', 'Asia Pacific', 'Latin America', 'Middle East'], datasets: [{ label: 'Actual', data: [85, 72, 78, 53, 47], backgroundColor: '#4361ee' }, { label: 'Target', data: [75, 65, 70, 60, 50], backgroundColor: '#adb5bd' }] }
-};
+// DOM Elements
+const sidebarToggle = document.getElementById('sidebar-toggle');
+const sidebar = document.getElementById('sidebar');
+const filterToggle = document.getElementById('filter-toggle');
+const filterDrawer = document.getElementById('filter-drawer');
+const closeFilter = document.getElementById('close-filter');
+const timePeriod = document.getElementById('time-period');
 
-// Utility Functions
-function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-    };
+// Toggle sidebar
+if (sidebarToggle) {
+  sidebarToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    document.querySelector('.content').classList.toggle('expanded');
+  });
 }
 
-// DOM Elements and Event Listeners
-document.addEventListener('DOMContentLoaded', function () {
-    const themeSwitch = document.getElementById('theme-switch');
-    const themeIcon = document.querySelector('.theme-icon');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const filterToggle = document.getElementById('filter-toggle');
-    const filterDrawer = document.getElementById('filter-drawer');
-    const closeFilter = document.getElementById('close-filter');
-    let isDarkTheme = false;
+// Toggle filter drawer
+if (filterToggle) {
+  filterToggle.addEventListener('click', () => {
+    filterDrawer.classList.toggle('open');
+  });
+}
 
-    // Theme Switch
-    themeSwitch.addEventListener('click', () => {
-        isDarkTheme = !isDarkTheme;
-        document.body.setAttribute('data-theme', isDarkTheme ? 'dark' : 'light');
-        themeIcon.classList.toggle('fa-sun', isDarkTheme);
-        themeIcon.classList.toggle('fa-moon', !isDarkTheme);
-        updateChartsTheme(isDarkTheme);
-        updateThreeJsScenes(isDarkTheme);
-    });
+// Close filter drawer
+if (closeFilter) {
+  closeFilter.addEventListener('click', () => {
+    filterDrawer.classList.remove('open');
+  });
+}
 
-    // Sidebar Toggle (Desktop and Mobile)
-    sidebarToggle.addEventListener('click', () => sidebar.classList.toggle('collapsed'));
-    mobileMenuToggle.addEventListener('click', () => sidebar.classList.toggle('show'));
-
-    // Close sidebar on mobile click outside
-    document.addEventListener('click', (e) => {
-        if (window.innerWidth < 768 && !sidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-            sidebar.classList.remove('show');
-        }
-    });
-
-    // Filter Drawer Toggle
-    filterToggle.addEventListener('click', () => filterDrawer.classList.toggle('show'));
-    closeFilter.addEventListener('click', () => filterDrawer.classList.remove('show'));
-
-    // Initialize Charts
-    initCharts();
-
-    // Load Three.js conditionally
-    loadThreeJs();
-
-    // Resize handler
-    window.addEventListener('resize', debounce(() => {
-        Chart.helpers.each(Chart.instances, instance => instance.resize());
-    }, 250));
+// Setup charts when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  setupRevenueChart();
+  setupAcquisitionChart();
+  setupCategorySalesChart();
+  setupTargetsChart();
 });
 
-// Chart Initialization
-function initCharts() {
-    const chartOptions = {
-        responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', align: 'end', labels: { boxWidth: 12, usePointStyle: true } }, tooltip: { mode: 'index', intersect: false } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true, grid: { borderDash: [2, 2] } } }
-    };
+// Revenue Performance Chart
+function setupRevenueChart() {
+  const ctx = document.getElementById('revenueChart');
+  if (!ctx) return;
 
-    const charts = { revenue: 'line', acquisition: 'bar', categorySales: 'doughnut', targets: 'bar' };
-    Object.entries(charts).forEach(([id, type]) => {
-        const ctx = document.getElementById(`${id}Chart`).getContext('2d');
-        new Chart(ctx, { type, data: mockData[id], options: chartOptions });
-    });
-}
+  const revenueData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+    datasets: [
+      {
+        label: 'Current Period',
+        data: [180000, 220000, 250000, 240000, 275000, 260000, 290000, 310000, 320000],
+        borderColor: 'rgba(67, 97, 238, 0.7)',
+        backgroundColor: 'rgba(67, 97, 238, 0.1)',
+        borderWidth: 3,
+        tension: 0.3,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      },
+      {
+        label: 'Previous Period',
+        data: [150000, 190000, 210000, 230000, 220000, 235000, 240000, 250000, 260000],
+        borderColor: 'rgba(76, 201, 240, 0.7)',
+        backgroundColor: 'rgba(76, 201, 240, 0.1)',
+        borderWidth: 3,
+        tension: 0.3,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      },
+      {
+        label: 'Forecast',
+        data: [175000, 195000, 230000, 245000, 260000, 270000, 285000, 300000, 315000],
+        borderColor: 'rgba(247, 37, 133, 0.7)',
+        backgroundColor: 'rgba(247, 37, 133, 0.1)',
+        borderWidth: 2,
+        borderDash: [5, 5],
+        tension: 0.3,
+        pointRadius: 0,
+        pointHoverRadius: 6
+      }
+    ]
+  };
 
-// Theme and Three.js Updates
-function updateChartsTheme(isDark) {
-    Chart.helpers.each(Chart.instances, instance => {
-        instance.data.datasets.forEach(dataset => {
-            dataset.borderColor = isDark ? lightenColor(dataset.borderColor, 20) : darkenColor(dataset.borderColor, 20);
-            dataset.backgroundColor = isDark ? lightenColor(dataset.backgroundColor, 20) : darkenColor(dataset.backgroundColor, 20);
-        });
-        instance.update();
-    });
-}
-
-function lightenColor(color, percent) {
-    // Simplified color lightening (use a library like 'color' for production)
-    return color.replace('0.', (parseFloat('0.' + color.split('.')[1]) + percent / 100).toString().substr(0, 4));
-}
-
-function darkenColor(color, percent) {
-    // Simplified color darkening
-    return color.replace('0.', (parseFloat('0.' + color.split('.')[1]) - percent / 100).toString().substr(0, 4));
-}
-
-function loadThreeJs() {
-    if (window.innerWidth > 1024) {
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-        script.onload = initThreeJsScenes;
-        document.head.appendChild(script);
-    } else {
-        document.querySelectorAll('.canvas-container').forEach(container => container.style.display = 'none');
-    }
-}
-
-// Three.js Scene Initialization (Only on Desktop)
-function initThreeJsScenes() {
-    // Simplified for brevity - implement only if needed
-    ['kpi-canvas-1', 'kpi-canvas-2', 'kpi-canvas-3', 'kpi-canvas-4', 'insight-canvas', 'revenue-canvas', 'acquisition-canvas', 'category-canvas', 'targets-canvas', 'performers-canvas'].forEach(id => {
-        const container = document.getElementById(id);
-        if (container) {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
-
-            // Basic animation (e.g., rotating cube)
-            const geometry = new THREE.BoxGeometry();
-            const material = new THREE.MeshBasicMaterial({ color: '#4361ee', transparent: true, opacity: 0.3 });
-            const cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
-            camera.position.z = 5;
-
-            function animate() {
-                requestAnimationFrame(animate);
-                cube.rotation.x += 0.01;
-                cube.rotation.y += 0.01;
-                renderer.render(scene, camera);
+  new Chart(ctx, {
+    type: 'line',
+    data: revenueData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return '$' + (value / 1000) + 'K';
             }
-
-            animate();
-
-            window.addEventListener('resize', debounce(() => {
-                renderer.setSize(container.clientWidth, container.clientHeight);
-                camera.aspect = container.clientWidth / container.clientHeight;
-                camera.updateProjectionMatrix();
-            }, 250));
+          }
         }
-    });
-}
-
-function updateThreeJsScenes(isDark) {
-    document.querySelectorAll('.canvas-container').forEach(container => {
-        if (container.threeJsObjects && container.threeJsObjects.material) {
-            container.threeJsObjects.material.color.set(isDark ? '#6d8cff' : '#4361ee');
-            container.threeJsObjects.material.opacity = isDark ? 0.5 : 0.3;
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.dataset.label + ': $' + (context.raw / 1000) + 'K';
+            }
+          }
         }
-    });
-}
-
-// Natural Language Filter Mock (Simplified)
-function processNaturalLanguageFilter(query) {
-    const lowerQuery = query.toLowerCase();
-    let filters = {};
-    if (lowerQuery.includes('q1') || lowerQuery.includes('quarter 1')) filters.period = 'Q1';
-    if (lowerQuery.includes('enterprise')) filters.segment = 'Enterprise';
-    if (lowerQuery.includes('revenue')) filters.metric = 'Revenue';
-    return filters;
-}
-
-function applyFilters(filters) {
-    const container = document.querySelector('.active-filters');
-    Object.entries(filters).forEach(([key, value]) => {
-        const filter = document.createElement('span');
-        filter.className = 'active-filter';
-        filter.innerHTML = `<i class="fas fa-${key === 'period' ? 'calendar' : key === 'segment' ? 'users' : 'chart-line'}"></i> ${value} <i class="fas fa-times"></i>`;
-        container.appendChild(filter);
-
-        filter.querySelector('.fa-times').addEventListener('click', () => filter.remove());
-    });
-}
-
-document.querySelector('.natural-language-filter button').addEventListener('click', () => {
-    const query = document.querySelector('.natural-language-filter input').value.trim();
-    if (query) {
-        const filters = processNaturalLanguageFilter(query);
-        applyFilters(filters);
-        filterDrawer.classList.remove('show');
-        document.querySelector('.natural-language-filter input').value = '';
+      }
     }
+  });
+}
+
+// Customer Acquisition Chart
+function setupAcquisitionChart() {
+  const ctx = document.getElementById('acquisitionChart');
+  if (!ctx) return;
+
+  const acquisitionData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [
+      {
+        type: 'bar',
+        label: 'New Customers',
+        data: [45, 52, 38, 45, 60, 70],
+        backgroundColor: 'rgba(67, 97, 238, 0.7)',
+        order: 2
+      },
+      {
+        type: 'line',
+        label: 'Retention Rate',
+        data: [85, 82, 88, 90, 89, 92],
+        borderColor: 'rgba(76, 201, 240, 0.7)',
+        backgroundColor: 'rgba(76, 201, 240, 0.1)',
+        tension: 0.3,
+        borderWidth: 3,
+        order: 1,
+        yAxisID: 'y1'
+      }
+    ]
+  };
+
+  new Chart(ctx, {
+    type: 'scatter', // This is overridden by each dataset's type
+    data: acquisitionData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          title: {
+            display: true,
+            text: 'New Customers'
+          }
+        },
+        y1: {
+          position: 'right',
+          beginAtZero: false,
+          min: 80,
+          max: 100,
+          title: {
+            display: true,
+            text: 'Retention Rate'
+          },
+          ticks: {
+            callback: function(value) {
+              return value + '%';
+            }
+          }
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              if (context.dataset.label === 'Retention Rate') {
+                return context.dataset.label + ': ' + context.raw + '%';
+              }
+              return context.dataset.label + ': ' + context.raw;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// Sales by Category Chart
+function setupCategorySalesChart() {
+  const ctx = document.getElementById('categorySalesChart');
+  if (!ctx) return;
+
+  const categorySalesData = {
+    labels: ['Software', 'Hardware', 'Services', 'Training'],
+    datasets: [{
+      data: [45, 25, 20, 10],
+      backgroundColor: [
+        'rgba(67, 97, 238, 0.7)',
+        'rgba(114, 9, 183, 0.7)',
+        'rgba(76, 201, 240, 0.7)',
+        'rgba(247, 37, 133, 0.7)'
+      ],
+      hoverOffset: 4
+    }]
+  };
+
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: categorySalesData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.label + ': ' + context.raw + '%';
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// Sales Performance vs Targets Chart
+function setupTargetsChart() {
+  const ctx = document.getElementById('targetsChart');
+  if (!ctx) return;
+
+  const targetsData = {
+    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+    datasets: [
+      {
+        label: 'Actual',
+        data: [650000, 830000, 920000, 0],
+        backgroundColor: 'rgba(67, 97, 238, 0.7)',
+        borderColor: 'rgba(67, 97, 238, 1)',
+        borderWidth: 1
+      },
+      {
+        label: 'Target',
+        data: [600000, 750000, 900000, 1100000],
+        backgroundColor: 'rgba(247, 37, 133, 0.2)',
+        borderColor: 'rgba(247, 37, 133, 1)',
+        borderWidth: 1,
+        borderDash: [5, 5]
+      }
+    ]
+  };
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: targetsData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return '$' + (value / 1000) + 'K';
+            }
+          }
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.dataset.label + ': $' + (context.raw / 1000) + 'K';
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// Handle time period selector changes
+if (timePeriod) {
+  timePeriod.addEventListener('change', function() {
+    const value = this.value;
+    console.log('Time period changed to:', value);
+    // In a real application, you would refresh chart data based on the selected time period
+    // For this demo, we'll just show an alert
+    alert('Time period changed to: ' + value + '\nIn a real app, chart data would refresh.');
+  });
+}
+
+// Setup event listeners for button group in revenue chart
+document.querySelectorAll('.revenue-performance .btn-group .btn').forEach(button => {
+  button.addEventListener('click', function() {
+    // Remove active class from all buttons
+    document.querySelectorAll('.revenue-performance .btn-group .btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    // Add active class to clicked button
+    this.classList.add('active');
+    
+    // In a real app, you would update the chart data based on the selected view
+    const view = this.textContent.trim();
+    console.log('Revenue chart view changed to:', view);
+    // For this demo, we'll just show an alert
+    alert('Revenue chart view changed to: ' + view + '\nIn a real app, chart data would refresh.');
+  });
 });
 
-document.querySelector('.natural-language-filter input').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        const query = e.target.value.trim();
-        if (query) {
-            const filters = processNaturalLanguageFilter(query);
-            applyFilters(filters);
-            filterDrawer.classList.remove('show');
-            e.target.value = '';
+
+document.addEventListener('DOMContentLoaded', function () {
+    const insightAlerts = document.querySelectorAll('.insight-alert');
+    const viewAllButton = document.querySelector('.card-footer button');
+
+    // Hide all insights except the first 5 on page load
+    if (insightAlerts.length > 5) {
+        for (let i = 5; i < insightAlerts.length; i++) {
+            insightAlerts[i].style.display = 'none';
         }
     }
-});
 
-// Filter Chips
-document.querySelectorAll('.filter-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-        let filters = {};
-        const text = chip.textContent.trim().replace(' ✕', '');
-        if (text === 'Q1 Enterprise') filters = { period: 'Q1', segment: 'Enterprise' };
-        else if (text === 'APAC Hardware') filters = { region: 'APAC', category: 'Hardware' };
-        else if (text === 'High Value Deals') filters = { dealSize: 'High Value' };
-        applyFilters(filters);
-        filterDrawer.classList.remove('show');
+    // Add click event listener to "View All Insights" button
+    viewAllButton.addEventListener('click', function () {
+        for (let i = 0; i < insightAlerts.length; i++) {
+            insightAlerts[i].style.display = 'block'; // Show all insights
+        }
+        viewAllButton.style.display = 'none'; // Hide the button after clicking
     });
 });
-
-// Active Filter Removal
-document.querySelectorAll('.active-filter .fa-times').forEach(filter => {
-    filter.addEventListener('click', (e) => {
-        e.stopPropagation();
-        filter.closest('.active-filter').remove();
-    });
-});
-
-// Simulate Real-Time Updates
-setInterval(() => {
-    const chartContainers = document.querySelectorAll('.chart-container');
-    const randomChart = chartContainers[Math.floor(Math.random() * chartContainers.length)];
-    if (randomChart) {
-        randomChart.classList.add('chart-update');
-        setTimeout(() => randomChart.classList.remove('chart-update'), 500);
-    }
-}, 30000);

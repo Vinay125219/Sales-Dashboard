@@ -1,62 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Insights Dashboard</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
-    <!-- Theme Toggle Button -->
-    <div class="theme-switch" id="theme-switch" aria-label="Toggle theme">
-        <i class="theme-icon fas fa-moon" aria-hidden="true"></i>
-    </div>
-
-    <!-- Mobile Menu Toggle -->
-
     <div class="dashboard-container">
-        <!-- Parallax Background Elements (Disabled on Mobile) -->
-        <div class="parallax-bg">
-            <div class="parallax-element parallax-element-1"></div>
-            <div class="parallax-element parallax-element-2"></div>
-            <div class="parallax-element parallax-element-3"></div>
-        </div>
-
         <!-- Sidebar Navigation -->
-        <nav id="sidebar" class="sidebar" role="navigation" aria-label="Main navigation">
+        <nav id="sidebar" class="sidebar">
             <div class="sidebar-header">
                 <h3>Sales Insight</h3>
-                <button id="sidebar-toggle" class="btn" aria-label="Collapse sidebar">
-                    <i class="fas fa-bars" aria-hidden="true"></i>
+                <button id="sidebar-toggle" class="btn">
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
-            <ul class="nav-links" role="menu">
-                <li class="active" role="menuitem">
-                    <a href="#" aria-label="Overview"><i class="fas fa-chart-line" aria-hidden="true"></i> <span>Overview</span></a>
+            <ul class="nav-links">
+                <li class="active">
+                    <a href="#"><i class="fas fa-chart-line"></i> Overview</a>
                 </li>
-                <li role="menuitem">
-                    <a href="#" aria-label="Customers"><i class="fas fa-users" aria-hidden="true"></i> <span>Customers</span></a>
+                <li>
+                    <a href="#"><i class="fas fa-users"></i> Customers</a>
                 </li>
-                <li role="menuitem">
-                    <a href="#" aria-label="Pipeline"><i class="fas fa-funnel-dollar" aria-hidden="true"></i> <span>Pipeline</span></a>
+                <li>
+                    <a href="#"><i class="fas fa-funnel-dollar"></i> Pipeline</a>
                 </li>
-                <li role="menuitem">
-                    <a href="#" aria-label="Targets"><i class="fas fa-bullseye" aria-hidden="true"></i> <span>Targets</span></a>
+                <li>
+                    <a href="#"><i class="fas fa-bullseye"></i> Targets</a>
                 </li>
-                <li role="menuitem">
-                    <a href="#" aria-label="Settings"><i class="fas fa-cog" aria-hidden="true"></i> <span>Settings</span></a>
+                <li>
+                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
                 </li>
             </ul>
             <div class="sidebar-footer">
-                <div class="user-info" aria-label="User information">
-                    <img src="/api/placeholder/40/40" alt="User Avatar" class="user-avatar" />
+                <div class="user-info">
+                    <img src="/api/placeholder/40/40" alt="User Avatar" class="user-avatar">
                     <div class="user-details">
                         <h6>Alex Morgan</h6>
                         <p>Sales Director</p>
@@ -66,21 +54,17 @@
         </nav>
 
         <!-- Main Content Area -->
-        <main class="content" role="main">
+        <main class="content">
             <!-- Top Filter Bar -->
             <div class="filter-bar">
                 <div class="row align-items-center">
-                    <div class="col-md-2">
+                    <div class="col-md-6">
                         <h2 class="dashboard-title">Sales Dashboard</h2>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-6">
                         <div class="filter-controls">
-                            <div class="advanced-search">
-                                <input type="text" class="search-input" placeholder="Search..." aria-label="Search dashboard" />
-                                <i class="fas fa-search search-icon" aria-hidden="true"></i>
-                            </div>
                             <div class="date-filter">
-                                <select id="time-period" class="form-select" aria-label="Select time period">
+                                <select id="time-period" class="form-select">
                                     <option value="today">Today</option>
                                     <option value="this-week">This Week</option>
                                     <option value="this-month" selected>This Month</option>
@@ -89,12 +73,13 @@
                                     <option value="custom">Custom Range</option>
                                 </select>
                             </div>
-                            <button id="filter-toggle" class="btn btn-outline-primary" aria-label="Open filters">
-                                <i class="fas fa-filter" aria-hidden="true"></i> Filters
+                            <button id="filter-toggle" class="btn btn-outline-primary">
+                                <i class="fas fa-filter"></i> Filters
                             </button>
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Export options">
-                                    <i class="fas fa-download" aria-hidden="true"></i>
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                    id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-download"></i>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="exportDropdown">
                                     <li><a class="dropdown-item" href="#">Export as PDF</a></li>
@@ -108,17 +93,17 @@
             </div>
 
             <!-- Filter Drawer (Hidden by Default) -->
-            <div id="filter-drawer" class="filter-drawer" role="dialog" aria-label="Filter options">
+            <div id="filter-drawer" class="filter-drawer">
                 <div class="filter-drawer-header">
                     <h5>Filters</h5>
-                    <button id="close-filter" class="btn-close" aria-label="Close filters"></button>
+                    <button id="close-filter" class="btn-close"></button>
                 </div>
                 <div class="filter-drawer-body">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="form-label">Product Category</label>
-                                <select class="form-select" multiple aria-label="Select product categories">
+                                <select class="form-select" multiple>
                                     <option selected>Software</option>
                                     <option>Hardware</option>
                                     <option>Services</option>
@@ -129,7 +114,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="form-label">Region</label>
-                                <select class="form-select" multiple aria-label="Select regions">
+                                <select class="form-select" multiple>
                                     <option selected>North America</option>
                                     <option>Europe</option>
                                     <option>Asia Pacific</option>
@@ -140,7 +125,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="form-label">Sales Rep</label>
-                                <select class="form-select" multiple aria-label="Select sales representatives">
+                                <select class="form-select" multiple>
                                     <option>All Representatives</option>
                                     <option selected>Team Alpha</option>
                                     <option>Team Beta</option>
@@ -152,85 +137,84 @@
                     <div class="natural-language-filter">
                         <label class="form-label">Natural Language Filter</label>
                         <div class="input-group">
-                            <span class="input-group-text" aria-hidden="true"><i class="fas fa-magic" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" placeholder="e.g., Show me Q1 revenue for enterprise clients" aria-label="Natural language query" />
-                            <button class="btn btn-primary" aria-label="Apply natural language filter">Apply</button>
+                            <span class="input-group-text"><i class="fas fa-magic"></i></span>
+                            <input type="text" class="form-control"
+                                placeholder="e.g., Show me Q1 revenue for enterprise clients">
+                            <button class="btn btn-primary">Apply</button>
                         </div>
                     </div>
                     <div class="saved-filters mt-3">
                         <h6>Saved Filters</h6>
-                        <div class="saved-filter-chips" role="group" aria-label="Saved filter chips">
-                            <span class="filter-chip" aria-label="Remove Q1 Enterprise filter">Q1 Enterprise <i class="fas fa-times" aria-hidden="true"></i></span>
-                            <span class="filter-chip" aria-label="Remove APAC Hardware filter">APAC Hardware <i class="fas fa-times" aria-hidden="true"></i></span>
-                            <span class="filter-chip" aria-label="Remove High Value Deals filter">High Value Deals <i class="fas fa-times" aria-hidden="true"></i></span>
+                        <div class="saved-filter-chips">
+                            <span class="filter-chip">Q1 Enterprise <i class="fas fa-times"></i></span>
+                            <span class="filter-chip">APAC Hardware <i class="fas fa-times"></i></span>
+                            <span class="filter-chip">High Value Deals <i class="fas fa-times"></i></span>
                         </div>
                     </div>
                 </div>
                 <div class="filter-drawer-footer">
-                    <button class="btn btn-secondary" aria-label="Reset filters">Reset</button>
-                    <button class="btn btn-primary" aria-label="Apply filters">Apply Filters</button>
+                    <button class="btn btn-secondary">Reset</button>
+                    <button class="btn btn-primary">Apply Filters</button>
                 </div>
             </div>
 
             <!-- Dashboard Content -->
             <div class="dashboard-content">
                 <!-- Active Filters Display -->
-                <div class="active-filters" role="group" aria-label="Active filters">
-                    <span class="active-filter" aria-label="Remove This Month filter"><i class="fas fa-calendar" aria-hidden="true"></i> This Month <i class="fas fa-times" aria-hidden="true"></i></span>
-                    <span class="active-filter" aria-label="Remove Software filter"><i class="fas fa-tag" aria-hidden="true"></i> Software <i class="fas fa-times" aria-hidden="true"></i></span>
-                    <span class="active-filter" aria-label="Remove North America filter"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> North America <i class="fas fa-times" aria-hidden="true"></i></span>
-                    <span class="active-filter" aria-label="Remove Team Alpha filter"><i class="fas fa-users" aria-hidden="true"></i> Team Alpha <i class="fas fa-times" aria-hidden="true"></i></span>
+                <div class="active-filters">
+                    <span class="active-filter"><i class="fas fa-calendar"></i> This Month</span>
+                    <span class="active-filter"><i class="fas fa-tag"></i> Software <i class="fas fa-times"></i></span>
+                    <span class="active-filter"><i class="fas fa-map-marker-alt"></i> North America <i
+                            class="fas fa-times"></i></span>
+                    <span class="active-filter"><i class="fas fa-users"></i> Team Alpha <i
+                            class="fas fa-times"></i></span>
                 </div>
 
                 <!-- KPI Summary Cards -->
-                <div class="kpi-cards">
+                <div class="row kpi-cards">
                     <div class="col-md-3">
-                        <div class="card kpi-card floating">
-                            <div class="canvas-container" id="kpi-canvas-1"></div>
+                        <div class="card kpi-card">
                             <div class="card-body">
                                 <h6 class="kpi-title">Total Revenue</h6>
                                 <div class="kpi-value">$1.28M</div>
                                 <div class="kpi-change positive">
-                                    <i class="fas fa-arrow-up" aria-hidden="true"></i> 12.8%
+                                    <i class="fas fa-arrow-up"></i> 12.8%
                                 </div>
                                 <div class="kpi-context">vs last month</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card kpi-card floating">
-                            <div class="canvas-container" id="kpi-canvas-2"></div>
+                        <div class="card kpi-card">
                             <div class="card-body">
                                 <h6 class="kpi-title">Conversion Rate</h6>
                                 <div class="kpi-value">24.3%</div>
                                 <div class="kpi-change positive">
-                                    <i class="fas fa-arrow-up" aria-hidden="true"></i> 3.1%
+                                    <i class="fas fa-arrow-up"></i> 3.1%
                                 </div>
                                 <div class="kpi-context">vs target</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card kpi-card floating">
-                            <div class="canvas-container" id="kpi-canvas-3"></div>
+                        <div class="card kpi-card">
                             <div class="card-body">
                                 <h6 class="kpi-title">Avg. Deal Size</h6>
                                 <div class="kpi-value">$28.6K</div>
                                 <div class="kpi-change positive">
-                                    <i class="fas fa-arrow-up" aria-hidden="true"></i> 8.7%
+                                    <i class="fas fa-arrow-up"></i> 8.7%
                                 </div>
                                 <div class="kpi-context">vs last month</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card kpi-card floating">
-                            <div class="canvas-container" id="kpi-canvas-4"></div>
+                        <div class="card kpi-card">
                             <div class="card-body">
                                 <h6 class="kpi-title">Customer Acq. Cost</h6>
                                 <div class="kpi-value">$1,240</div>
                                 <div class="kpi-change negative">
-                                    <i class="fas fa-arrow-up" aria-hidden="true"></i> 5.2%
+                                    <i class="fas fa-arrow-up"></i> 5.2%
                                 </div>
                                 <div class="kpi-context">vs target</div>
                             </div>
@@ -242,22 +226,22 @@
                 <div class="asymmetrical-layout">
                     <!-- Primary Insight Panel (1/3 width) -->
                     <div class="insight-panel">
-                        <div class="card viz-card">
-                            <div class="canvas-container" id="insight-canvas"></div>
+                        <div class="card">
                             <div class="card-header">
                                 <h5>AI-Powered Insights</h5>
                                 <div class="card-actions">
-                                    <button class="btn btn-sm btn-outline-secondary" aria-label="Refresh insights">
-                                        <i class="fas fa-sync" aria-hidden="true"></i>
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-sync"></i>
                                     </button>
                                     <div class="dropdown">
-                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More options">
-                                            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                            data-bs-toggle="dropdown">
+                                            <i class="fas fa-ellipsis-v"></i>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#" aria-label="Customize insights">Customize Insights</a></li>
-                                            <li><a class="dropdown-item" href="#" aria-label="Export insights">Export Insights</a></li>
-                                            <li><a class="dropdown-item" href="#" aria-label="Share insights">Share</a></li>
+                                            <li><a class="dropdown-item" href="#">Customize Insights</a></li>
+                                            <li><a class="dropdown-item" href="#">Export Insights</a></li>
+                                            <li><a class="dropdown-item" href="#">Share</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -265,14 +249,16 @@
                             <div class="card-body">
                                 <div class="insight-alert">
                                     <div class="insight-icon">
-                                        <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                                        <i class="fas fa-lightbulb"></i>
                                     </div>
                                     <div class="insight-content">
                                         <h6>Unexpected Revenue Spike</h6>
-                                        <p>Software subscription revenue increased by 43% in the Northwest region, significantly above the 12% forecast. This appears to be driven by the new enterprise licensing model.</p>
+                                        <p>Software subscription revenue increased by 43% in the Northwest region,
+                                            significantly above the 12% forecast. This appears to be driven by the new
+                                            enterprise licensing model.</p>
                                         <div class="insight-actions">
-                                            <button class="btn btn-sm btn-outline-primary" aria-label="Investigate revenue spike">Investigate</button>
-                                            <button class="btn btn-sm btn-link" aria-label="Dismiss alert">Dismiss</button>
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
                                         </div>
                                     </div>
                                 </div>
@@ -282,7 +268,9 @@
                                     </div>
                                     <div class="insight-content">
                                         <h6>Conversion Rate Decline</h6>
-                                        <p>B2B conversions decreased by 8.3% for mid-sized deals ($10K-$50K) since the new pricing model launched. This contrasts with improved performance in other segments.</p>
+                                        <p>B2B conversions decreased by 8.3% for mid-sized deals ($10K-$50K) since the
+                                            new pricing model launched. This contrasts with improved performance in
+                                            other segments.</p>
                                         <div class="insight-actions">
                                             <button class="btn btn-sm btn-outline-primary">Investigate</button>
                                             <button class="btn btn-sm btn-link">Dismiss</button>
@@ -295,18 +283,158 @@
                                     </div>
                                     <div class="insight-content">
                                         <h6>Sales Velocity Improvement</h6>
-                                        <p>Average sales cycle shortened by 12 days (24%) for enterprise deals. The new solution demo workflow is showing strong correlation with faster closings.</p>
+                                        <p>Average sales cycle shortened by 12 days (24%) for enterprise deals. The new
+                                            solution demo workflow is showing strong correlation with faster closings.
+                                        </p>
                                         <div class="insight-actions">
                                             <button class="btn btn-sm btn-outline-primary">Investigate</button>
                                             <button class="btn btn-sm btn-link">Dismiss</button>
                                         </div>
                                     </div>
                                 </div>
-                    
-                                <!-- Add more insight alerts here -->
+                                <div class="insight-alert">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h6>Cost Reduction Opportunity</h6>
+                                        <p>Operational costs in the Southeast region dropped by 15% due to optimized
+                                            supply chain logistics. Potential for wider implementation.</p>
+                                        <div class="insight-actions">
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="insight-alert">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h6>Customer Satisfaction Surge</h6>
+                                        <p>NPS scores for premium support clients rose by 22 points after introducing
+                                            24/7 chat support. Consider expanding this service.</p>
+                                        <div class="insight-actions">
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="insight-alert">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-cloud-upload"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h6>Cloud Adoption Growth</h6>
+                                        <p>Cloud service sign-ups increased by 35% in Q1, outpacing on-premise
+                                            solutions. Marketing campaigns may be driving this trend.</p>
+                                        <div class="insight-actions">
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="insight-alert">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-bug"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h6>Support Ticket Spike</h6>
+                                        <p>Support tickets related to a recent software update increased by 50%. Urgent
+                                            review recommended to address potential issues.</p>
+                                        <div class="insight-actions">
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="insight-alert">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h6>International Market Expansion</h6>
+                                        <p>European sales grew by 28% following the launch of localized marketing
+                                            campaigns. Potential for further regional growth.</p>
+                                        <div class="insight-actions">
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="insight-alert">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h6>Website Performance Boost</h6>
+                                        <p>Page load times improved by 40% after infrastructure upgrades, resulting in a
+                                            15% increase in user engagement.</p>
+                                        <div class="insight-actions">
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="insight-alert">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h6>Security Incident Alert</h6>
+                                        <p>Minor security breach detected in the CRM system. Immediate action required
+                                            to prevent data exposure.</p>
+                                        <div class="insight-actions">
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="insight-alert">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-rocket"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h6>Product Launch Success</h6>
+                                        <p>The new mobile app launch exceeded expectations with 100,000 downloads in the
+                                            first week, a 50% increase over projections.</p>
+                                        <div class="insight-actions">
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="insight-alert">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h6>Market Share Growth</h6>
+                                        <p>Company market share in the SaaS sector increased by 5% in Q1, driven by
+                                            competitive pricing and feature enhancements.</p>
+                                        <div class="insight-actions">
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="insight-alert">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h6>Email Campaign Performance</h6>
+                                        <p>Email open rates for the latest campaign reached 42%, up 18% from the
+                                            previous campaign, indicating stronger audience engagement.</p>
+                                        <div class="insight-actions">
+                                            <button class="btn btn-sm btn-outline-primary">Investigate</button>
+                                            <button class="btn btn-sm btn-link">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-primary btn-sm" aria-label="View all insights">View All Insights</button>
+                                <button class="btn btn-primary btn-sm">View All Insights</button>
                             </div>
                         </div>
                     </div>
@@ -315,23 +443,25 @@
                     <div class="visualization-area">
                         <!-- Revenue Performance Chart -->
                         <div class="card viz-card revenue-performance">
-                            <div class="canvas-container" id="revenue-canvas"></div>
                             <div class="card-header">
                                 <h5>Revenue Performance</h5>
                                 <div class="card-actions">
-                                    <div class="btn-group" role="group" aria-label="Time period options">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary active" aria-label="View monthly">Monthly</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" aria-label="View quarterly">Quarterly</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" aria-label="View yearly">Yearly</button>
+                                    <div class="btn-group" role="group">
+                                        <button type="button"
+                                            class="btn btn-sm btn-outline-secondary active">Monthly</button>
+                                        <button type="button"
+                                            class="btn btn-sm btn-outline-secondary">Quarterly</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">Yearly</button>
                                     </div>
                                     <div class="dropdown">
-                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More options">
-                                            <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                            data-bs-toggle="dropdown">
+                                            <i class="fas fa-ellipsis-v"></i>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#" aria-label="Download data">Download Data</a></li>
-                                            <li><a class="dropdown-item" href="#" aria-label="Customize view">Customize View</a></li>
-                                            <li><a class="dropdown-item" href="#" aria-label="Set alerts">Set Alerts</a></li>
+                                            <li><a class="dropdown-item" href="#">Download Data</a></li>
+                                            <li><a class="dropdown-item" href="#">Customize View</a></li>
+                                            <li><a class="dropdown-item" href="#">Set Alerts</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -340,30 +470,25 @@
                                 <div class="chart-container">
                                     <canvas id="revenueChart"></canvas>
                                 </div>
-                                <div class="custom-legend mt-3" role="group" aria-label="Chart legend">
-                                    <div class="legend-item"><div class="legend-color" style="background-color: rgba(67, 97, 238, 0.7)"></div><span>Current Period</span></div>
-                                    <div class="legend-item"><div class="legend-color" style="background-color: rgba(76, 201, 240, 0.7)"></div><span>Previous Period</span></div>
-                                    <div class="legend-item"><div class="legend-color" style="background-color: rgba(247, 37, 133, 0.7)"></div><span>Forecast</span></div>
-                                </div>
                             </div>
                         </div>
 
                         <!-- Mid Row Cards -->
                         <div class="row viz-row">
                             <!-- Customer Acquisition Chart -->
-                            <div class="col-md-15">
+                            <div class="col-md-12">
                                 <div class="card viz-card">
-                                    <div class="canvas-container" id="acquisition-canvas"></div>
                                     <div class="card-header">
                                         <h5>Customer Acquisition</h5>
                                         <div class="card-actions">
                                             <div class="dropdown">
-                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More options">
-                                                    <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                                    data-bs-toggle="dropdown">
+                                                    <i class="fas fa-ellipsis-v"></i>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#" aria-label="Download data">Download Data</a></li>
-                                                    <li><a class="dropdown-item" href="#" aria-label="Customize view">Customize View</a></li>
+                                                    <li><a class="dropdown-item" href="#">Download Data</a></li>
+                                                    <li><a class="dropdown-item" href="#">Customize View</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -372,28 +497,24 @@
                                         <div class="chart-container">
                                             <canvas id="acquisitionChart"></canvas>
                                         </div>
-                                        <div class="custom-legend mt-3" role="group" aria-label="Chart legend">
-                                            <div class="legend-item"><div class="legend-color" style="background-color: rgba(67, 97, 238, 0.7)"></div><span>New Customers</span></div>
-                                            <div class="legend-item"><div class="legend-color" style="background-color: rgba(76, 201, 240, 0.7)"></div><span>Retention Rate</span></div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Sales by Category Chart -->
-                            <div class="col-md-15">
+                            <div class="col-md-12">
                                 <div class="card viz-card">
-                                    <div class="canvas-container" id="category-canvas"></div>
                                     <div class="card-header">
                                         <h5>Sales by Category</h5>
                                         <div class="card-actions">
                                             <div class="dropdown">
-                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More options">
-                                                    <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                                    data-bs-toggle="dropdown">
+                                                    <i class="fas fa-ellipsis-v"></i>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#" aria-label="Download data">Download Data</a></li>
-                                                    <li><a class="dropdown-item" href="#" aria-label="Customize view">Customize View</a></li>
+                                                    <li><a class="dropdown-item" href="#">Download Data</a></li>
+                                                    <li><a class="dropdown-item" href="#">Customize View</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -410,19 +531,19 @@
                         <!-- Bottom Row Cards -->
                         <div class="row viz-row">
                             <!-- Sales Performance vs Targets -->
-                            <div class="col-md-15">
+                            <div class="col-md-12">
                                 <div class="card viz-card">
-                                    <div class="canvas-container" id="targets-canvas"></div>
                                     <div class="card-header">
                                         <h5>Sales Performance vs Targets</h5>
                                         <div class="card-actions">
                                             <div class="dropdown">
-                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More options">
-                                                    <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                                    data-bs-toggle="dropdown">
+                                                    <i class="fas fa-ellipsis-v"></i>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#" aria-label="Download data">Download Data</a></li>
-                                                    <li><a class="dropdown-item" href="#" aria-label="Customize view">Customize View</a></li>
+                                                    <li><a class="dropdown-item" href="#">Download Data</a></li>
+                                                    <li><a class="dropdown-item" href="#">Customize View</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -431,35 +552,31 @@
                                         <div class="chart-container">
                                             <canvas id="targetsChart"></canvas>
                                         </div>
-                                        <div class="custom-legend mt-3" role="group" aria-label="Chart legend">
-                                            <div class="legend-item"><div class="legend-color" style="background-color: rgba(67, 97, 238, 0.7)"></div><span>Actual Sales</span></div>
-                                            <div class="legend-item"><div class="legend-color" style="background-color: rgba(76, 201, 240, 0.7)"></div><span>Target Sales</span></div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Top Performers -->
-                            <div class="col-md-15">
+                            <div class="col-md-12">
                                 <div class="card viz-card">
-                                    <div class="canvas-container" id="performers-canvas"></div>
                                     <div class="card-header">
                                         <h5>Top Performers</h5>
                                         <div class="card-actions">
                                             <div class="dropdown">
-                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="More options">
-                                                    <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                                    data-bs-toggle="dropdown">
+                                                    <i class="fas fa-ellipsis-v"></i>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#" aria-label="View all representatives">View All Reps</a></li>
-                                                    <li><a class="dropdown-item" href="#" aria-label="View performance details">Performance Details</a></li>
+                                                    <li><a class="dropdown-item" href="#">View All Reps</a></li>
+                                                    <li><a class="dropdown-item" href="#">Performance Details</a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <ul class="performer-list" role="list">
-                                            <li class="performer-item" role="listitem">
+                                        <ul class="performer-list">
+                                            <li class="performer-item">
                                                 <div class="performer-rank">1</div>
                                                 <div class="performer-info">
                                                     <div class="performer-name">Sarah Johnson</div>
@@ -468,12 +585,61 @@
                                                 <div class="performer-value">$285K</div>
                                                 <div class="performer-progress">
                                                     <div class="progress">
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar bg-success" role="progressbar"
+                                                            style="width: 92%" aria-valuenow="92" aria-valuemin="0"
+                                                            aria-valuemax="100"></div>
                                                     </div>
                                                     <span>92% of target</span>
                                                 </div>
                                             </li>
-                                            <!-- Add more performer items here -->
+                                            <li class="performer-item">
+                                                <div class="performer-rank">2</div>
+                                                <div class="performer-info">
+                                                    <div class="performer-name">David Chen</div>
+                                                    <div class="performer-team">Mid-Market Team</div>
+                                                </div>
+                                                <div class="performer-value">$210K</div>
+                                                <div class="performer-progress">
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-success" role="progressbar"
+                                                            style="width: 84%" aria-valuenow="84" aria-valuemin="0"
+                                                            aria-valuemax="100"></div>
+                                                    </div>
+                                                    <span>84% of target</span>
+                                                </div>
+                                            </li>
+                                            <li class="performer-item">
+                                                <div class="performer-rank">3</div>
+                                                <div class="performer-info">
+                                                    <div class="performer-name">Anna Martinez</div>
+                                                    <div class="performer-team">Strategic Accounts</div>
+                                                </div>
+                                                <div class="performer-value">$198K</div>
+                                                <div class="performer-progress">
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-success" role="progressbar"
+                                                            style="width: 79%" aria-valuenow="79" aria-valuemin="0"
+                                                            aria-valuemax="100"></div>
+                                                    </div>
+                                                    <span>79% of target</span>
+                                                </div>
+                                            </li>
+                                            <li class="performer-item">
+                                                <div class="performer-rank">4</div>
+                                                <div class="performer-info">
+                                                    <div class="performer-name">Michael Lee</div>
+                                                    <div class="performer-team">SMB Team</div>
+                                                </div>
+                                                <div class="performer-value">$156K</div>
+                                                <div class="performer-progress">
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-warning" role="progressbar"
+                                                            style="width: 62%" aria-valuenow="62" aria-valuemin="0"
+                                                            aria-valuemax="100"></div>
+                                                    </div>
+                                                    <span>62% of target</span>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -487,9 +653,8 @@
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Custom JS -->
+    <!-- Custom JavaScript -->
     <script src="index.js"></script>
 </body>
+
 </html>
